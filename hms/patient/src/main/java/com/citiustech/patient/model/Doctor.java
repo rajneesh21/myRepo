@@ -18,7 +18,7 @@ public class Doctor {
 	private String specialization;
 	private String qualification;
 	private String address;
-	private String appointmentId;
+	
 	
 	
 
@@ -85,15 +85,6 @@ public class Doctor {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	public String getAppointmentId() {
-		return appointmentId;
-	}
-
-	public void setAppointmentId(String appointmentId) {
-		this.appointmentId = appointmentId;
-	}
-
 
 	
 

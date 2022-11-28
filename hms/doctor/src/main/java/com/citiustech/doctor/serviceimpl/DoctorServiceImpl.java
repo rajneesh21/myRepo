@@ -109,53 +109,20 @@ public class DoctorServiceImpl implements DoctorService{
 	}
 	
 	
-
-	@Override
-	public DoctorAppointmentDetails viewAppointment(Long doctorId) {
-		
-		DoctorAppointmentDetails doctorAppointmentDetails= new DoctorAppointmentDetails();
-		Optional<Doctor> optDoctor= doctorRepository.findById(doctorId);
-		Doctor doctor= optDoctor.get();
-		
-		if(optDoctor.isPresent()) {
-			Appointment appointment=appointmentRepository.findById(doctor.getAppointmentId()).get();
-			if(appointment!=null) {
-				Patient patient= patientRepository.findById(appointment.getPatientId()).get();
-				
-				doctorAppointmentDetails.setAppointmentId(patient.getAppointmentId());
-				doctorAppointmentDetails.setAppointmentDate(appointment.getAppointmentDate());
-				doctorAppointmentDetails.setPatientId(patient.getPatientId());
-				doctorAppointmentDetails.setPatientName(patient.getName());
-				doctorAppointmentDetails.setDOB(patient.getDob());
-				doctorAppointmentDetails.setGender(patient.getGender());
-				doctorAppointmentDetails.setEmail(patient.getEmail());
-				return doctorAppointmentDetails;
-			}
-			else {
-				System.out.println("No Appointment Available");
-				return null;
-			}
-		}
-		else {
-			System.out.println("Invalid Id");
-			return null;
-		}
-	}
-
 	@Override
 	public List<DoctorAppointmentDetails> viewAllAppointment(Long doctorId) {
 		List<DoctorAppointmentDetails> aptArrList= new ArrayList<>();
-		DoctorAppointmentDetails doctorAppointmentDetails= new DoctorAppointmentDetails();
+		
 		Optional<Doctor> optDoctor= doctorRepository.findById(doctorId);
-		Doctor doctor= optDoctor.get();
 		
 		if(optDoctor.isPresent()) {
-			List<Appointment> appointments=appointmentRepository.findAllappointmenByOneId(doctor.getAppointmentId());
+			List<Appointment> appointments=appointmentRepository.findByDoctorId(doctorId);
 			if(appointments.size()!=0) {
 				for(Appointment appointment:appointments) {
 					Patient patient= patientRepository.findById(appointment.getPatientId()).get();
+					DoctorAppointmentDetails doctorAppointmentDetails= new DoctorAppointmentDetails();
 					
-					doctorAppointmentDetails.setAppointmentId(patient.getAppointmentId());
+					doctorAppointmentDetails.setAppointmentId(appointment.getAppointmentId());
 					doctorAppointmentDetails.setAppointmentDate(appointment.getAppointmentDate());
 					doctorAppointmentDetails.setPatientId(patient.getPatientId());
 					doctorAppointmentDetails.setPatientName(patient.getName());
@@ -164,6 +131,7 @@ public class DoctorServiceImpl implements DoctorService{
 					doctorAppointmentDetails.setEmail(patient.getEmail());
 					
 					aptArrList.add(doctorAppointmentDetails);
+					doctorAppointmentDetails=null;
 				}
 				return aptArrList;
 			}

@@ -1,5 +1,6 @@
 package com.citiustech.patient.serviceimpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -75,9 +76,7 @@ public class PatientServiceImpl implements PatientService {
 
 		Appointment appointment = new Appointment();
 		Optional<Patient> optPatient = patientRepository.findById(appointmentD.getPatientId());
-		Optional<Doctor> optDoctor = doctorRepository.findById(appointmentD.getDoctorId());
-		Patient patient = optPatient.get();
-		Doctor doctor = optDoctor.get();
+		
 
 		if (optPatient.isPresent()) {
 			String aptId = UUID.randomUUID().toString();
@@ -87,36 +86,41 @@ public class PatientServiceImpl implements PatientService {
 			appointment.setAppointmentDate(appointmentD.getAppointmentDate());
 			appointmentRepository.save(appointment);
 
-			patient.setAppointmentId(aptId);
-			patientRepository.save(patient);
-
-			doctor.setAppointmentId(aptId);
-			doctorRepository.save(doctor);
 		} else {
 			System.out.println("Incorrect details!");
 		}
 	}
 
 	@Override
-	public PatientAppointmentDetails viewAppointment(Long patientId) {
+	public List<PatientAppointmentDetails> viewAppointment(Long patientId) {
 
-		PatientAppointmentDetails patientAppointmentDetails = new PatientAppointmentDetails();
-		Patient patient = patientRepository.findById(patientId).get();
+		
+		Optional<Patient> optPatient = patientRepository.findById(patientId);
+		
+		List<PatientAppointmentDetails> patientAppointmentList= new ArrayList<>();
 
-		if (patient != null) {
+		if (optPatient.isPresent()) {
 
-			Appointment appointment = appointmentRepository.findById(patient.getAppointmentId()).get();
+			List<Appointment> appointmentList = appointmentRepository.findByPatientId(patientId);
 
-			if (appointment != null) {
+			if (appointmentList.size()!=0) {
+				for(Appointment appointment:appointmentList) {
+					PatientAppointmentDetails patientAppointmentDetails = new PatientAppointmentDetails();
 				Doctor doctor = doctorRepository.findById(appointment.getDoctorId()).get();
 
 				patientAppointmentDetails.setAppointmentDate(appointment.getAppointmentDate());
 				patientAppointmentDetails.setAppointmentId(appointment.getAppointmentId());
 				patientAppointmentDetails.setDoctorId(appointment.getDoctorId());
 				patientAppointmentDetails.setDoctorName("Dr. " + doctor.getFirstName() + " " + doctor.getLastName());
-
+				
+				patientAppointmentList.add(patientAppointmentDetails);
+				patientAppointmentDetails=null;
+				
+				}
+				return patientAppointmentList;
 			} else {
 				System.out.println("No Appointment Available");
+				return null;
 
 			}
 
@@ -124,9 +128,8 @@ public class PatientServiceImpl implements PatientService {
 
 		else {
 			System.out.println("Invalid Id");
+			return null;
 
 		}
-
-		return patientAppointmentDetails;
 	}
 }

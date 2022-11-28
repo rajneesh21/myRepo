@@ -45,10 +45,6 @@ public class DoctorController {
 		return doctorService.getDoctorByDoctorId(doctorId);
 	}
 	
-	@GetMapping("/viewAppointment/{doctorId}")
-	public DoctorAppointmentDetails viewAppointment(@PathVariable Long doctorId) {
-		return doctorService.viewAppointment(doctorId);
-	}
 	
 	@GetMapping("/viewAllAppointment/{doctorId}")
 	public List<DoctorAppointmentDetails> viewAllAppointment(@PathVariable Long doctorId){

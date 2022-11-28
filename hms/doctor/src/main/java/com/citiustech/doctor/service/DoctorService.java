@@ -19,6 +19,5 @@ public interface DoctorService {
 	public Doctor getDoctorByDoctorId(Long doctorId);
 	public List<Patient> getPatientDetails();
 	
-	public DoctorAppointmentDetails viewAppointment(Long doctorId);
 	public List<DoctorAppointmentDetails> viewAllAppointment(Long doctorId);
 }

@@ -13,5 +13,5 @@ public interface PatientService {
 	public List<Patient> patientList();
 	public void savePatientRecords(Patient patient);
 	public void deletePatientRecord(Long patientId);
-	public PatientAppointmentDetails viewAppointment(Long patientId);
+	public List<PatientAppointmentDetails> viewAppointment(Long patientId);
 }

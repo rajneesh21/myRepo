@@ -48,7 +48,7 @@ public class PatientController {
 	}
 	
 	@GetMapping("/viewAppointment/{patientId}")
-	public PatientAppointmentDetails viewAppointment(@PathVariable Long patientId) {
+	public List<PatientAppointmentDetails> viewAppointment(@PathVariable Long patientId) {
 		return patientService.viewAppointment(patientId);
 	}
 }

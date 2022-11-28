@@ -16,7 +16,7 @@ public class Patient {
 	private String gender;
 	private String email;
 	private String password;
-	private String appointmentId;
+	
 	
 	
 	
@@ -68,15 +68,4 @@ public class Patient {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public String getAppointmentId() {
-		return appointmentId;
-	}
-
-	public void setAppointmentId(String appointmentId) {
-		this.appointmentId = appointmentId;
-	}
-
-	
-
 }
