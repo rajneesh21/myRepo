@@ -1,0 +1,78 @@
+
+<br>
+<br>
+<br>
+<div class="container">
+  <div class="row">
+      <!-- <p>Login form style 1</p> -->
+      <div class="col d-flex justify-content-center">
+      <div
+        class="card shadow-2-strong shadow p-3 mb-5 bg-white rounded"
+        style="border-radius: 1rem; width: 30rem;"
+      >
+        <article class="card-body">
+          <!-- <a href="signup" class="float-right btn btn-outline-primary">Sign up</a> -->
+          <h4 class="card-title mb-4 mt-1" style="text-align: center;">Sign in</h4>
+          <hr>
+          <form class="user-login" [formGroup]="loginForm"
+          (ngSubmit)="onLogin()">
+            <div class="form-group">
+              <label>Username</label>
+              <input
+                name=""
+                type="email"
+                class="form-control"
+                id="inputEmail"
+                formControlName="username"
+                placeholder="Enter Username"
+                required
+              />
+              <div *ngIf="submitted && formControl.username.errors"  class="text-danger">
+                <div *ngIf="formControl.username.errors.email">Email must be valid.</div>
+                <div *ngIf="formControl.username.errors.required">Email is required.</div>
+              </div>
+            </div>
+            <!-- form-group// -->
+            <div class="form-group">
+              
+              <label>Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="inputPassword"
+                formControlName="password"
+                placeholder="******"
+                required
+              />
+              <div *ngIf="formControl.password.hasError('pattern')" class="text-danger" >
+                <ul>
+                  <li>Password should be alphanumeric</li>
+                  <li>A letter of the password should be capital</li>
+                  <li>Password must contain a special character (@, $, !, &, etc)</li>
+                  <li>Password length must be greater than 7 characters</li>
+                </ul>
+              </div>
+            </div>
+            <!-- form-group// -->
+            <div class="form-group">
+              <div class="checkbox">
+                <label> <input type="checkbox" /> Save password </label>
+              </div>
+              <!-- checkbox .// -->
+            </div>
+            <!-- form-group// -->
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block">
+                Login
+              </button>
+            </div>
+            <a class="float-right" href="forgotPassword">Forgot Password?</a>
+            <!-- form-group// -->
+          </form>
+        </article>
+      </div><!-- card.// -->
+      </div>    <!-- col.// -->
+  </div>
+</div>
+
+<!--container end.//-->

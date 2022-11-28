@@ -1,0 +1,166 @@
+<br />
+
+<div class="container">
+  <div class="header">Invite User</div>
+  <div class="content">
+    <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+      <div class="user-details">
+        <div class="input-box">
+          <div class="details">
+            <label>Title</label>
+          </div>
+          <select
+            formControlName="title"
+            class="form-select"
+            id="title"
+            [ngClass]="{ 'is-invalid': submitted && formData.title.errors }"
+          >
+            <option value="" >Select Role</option>
+            <option value="Mr.">Mr.</option>
+            <option value="Ms.">Ms.</option>
+            <option value="Mrs.">Mrs.</option>
+          </select>
+          <div
+            *ngIf="submitted && formData.title.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="formData.title.errors.required">Title is required</div>
+          </div>
+          <span
+            style="color: red"
+            *ngIf="title && title.invalid && title.touched"
+            >This input Field is not valid</span
+          >
+        </div>
+        <div class="input-box">
+          <div class="details">
+            <label>Role</label>
+          </div>
+          <select
+            formControlName="roleId"
+            class="form-select"
+            id="roleId"
+            (change)="selectOption($event)"
+            [(ngModel)]="selected"
+            [ngClass]="{ 'is-invalid': submitted && formData.roleId.errors }"
+          >
+            <option value="0" >Select Role</option>
+            <option *ngFor="let r of rolesArray | keyvalue" [ngValue]="r.key">{{r.value}}</option>
+
+          </select>
+          <div
+            *ngIf="submitted && formData.roleId.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="formData.roleId.errors.required">Role is required</div>
+          </div>
+          <span style="color: red" *ngIf="roleId && roleId.invalid && roleId.touched"
+            >This input Field is not valid</span
+          >
+        </div>
+        <div class="input-box">
+          <div class="details">First Name</div>
+          <input
+            type="text"
+            required
+            placeholder="Enter your FirstName"
+            formControlName="firstName"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && formData.firstName.errors }"
+          />
+          <div
+            *ngIf="submitted && formData.firstName.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="formData.firstName.errors.required">
+              First Name is required
+            </div>
+          </div>
+          <span
+            style="color: red"
+            *ngIf="firstName && firstName.invalid && firstName.touched"
+            >This input Field is not valid</span
+          >
+        </div>
+        <div class="input-box">
+          <div class="details">Last Name</div>
+          <input
+            type="text"
+            required
+            placeholder="Enter your lastName"
+            formControlName="lastName"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && formData.lastName.errors }"
+          />
+          <div
+            *ngIf="submitted && formData.lastName.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="formData.lastName.errors.required">
+              Last Name is required
+            </div>
+          </div>
+          <span
+            style="color: red"
+            *ngIf="lastName && lastName.invalid && lastName.touched"
+            >This input Field is not valid</span
+          >
+        </div>
+        <div class="input-box">
+          <div class="details">Email</div>
+          <input
+            type="email"
+            required
+            placeholder="Enter your email"
+            formControlName="email"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && formData.email.errors }"
+          />
+          <div
+            *ngIf="submitted && formData.email.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="formData.email.errors.required">Email is required</div>
+          </div>
+          <span
+            style="color: red"
+            *ngIf="email && email.invalid && email.touched"
+            >This input Field is not valid</span
+          >
+        </div>
+        <div class="input-box">
+          <div class="details">Date Of Birth</div>
+          <input
+            type="date"
+            required
+            placeholder="Enter your Date of Birth"
+            formControlName="dateOfBirth"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && formData.dateOfBirth.errors }"
+          />
+          <div
+            *ngIf="submitted && formData.dateOfBirth.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="formData.dateOfBirth.errors.required">
+              Date of Birth is required
+            </div>
+            <div *ngIf="formData.dateOfBirth.errors.pattern">
+              Date of Birth must be a valid date in the format YYYY-MM-DD
+            </div>
+          </div>
+          <span
+            style="color: red"
+            *ngIf="dateOfBirth && dateOfBirth.invalid && dateOfBirth.touched"
+            >This input Field is not valid</span
+          >
+        </div>
+      </div>
+
+      <div class="button row">
+        <input type="submit" value="Register" (click)="onSubmit()" />
+        <input type="submit" value="Cancel" (click)="onReset()" />
+      </div>
+    </form>
+  </div>
+</div>

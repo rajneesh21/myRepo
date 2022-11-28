@@ -1,0 +1,83 @@
+<br>
+
+
+<div class="container" >
+  <div class="header">Registration</div>
+<br>
+  <div class="content">
+    <form  [formGroup]="regForm" (ngSubmit)="onSubmit()">
+      <div class="user-details">
+        <div class="input-box">
+            <div class="details">
+            <label>Title</label>
+            </div>
+            <select name="Title"  formControlName="title" id="title" class="form-select">
+                <option value="Mr.">Mr.</option>
+                <option value="Ms.">Ms.</option>
+                <option value="Mrs.">Mrs.</option>
+              </select>
+              <br>
+              <span style="color: red;" *ngIf="title && title.invalid && title.touched">This input Field is not valid</span>
+              <br>
+              </div>
+              <!-- <div class="input-box">
+                <div class="details">
+                <label>Role</label>
+                </div>
+                <select name="Role"  formControlName="role" id="role" class="form-select" >
+                    <option value = "Select Role">Select Role</option>
+                    <option value="Patient">Patient</option>
+                    <option value="Doctor">Doctor</option>
+                    <option value="Nurse">Nurse</option>
+                  </select>
+                  <br>
+                     <span style="color: red;" *ngIf="role && role.invalid && role.touched">This input Field is not valid</span>
+                  <br>
+                  </div> -->
+              <div class="input-box">
+          <div class="details">First Name</div>
+          <input type="text" placeholder="Enter your FirstName" formControlName="firstName">
+          <br>
+          <span style="color: red;" *ngIf="firstName && firstName.invalid && firstName.touched">This input Field is not valid</span>
+          <br>
+        </div>
+        <div class="input-box">
+          <div class="details">Last Name</div>
+          <input type="text" placeholder="Enter your lastName" formControlName="lastName">
+          <br>
+          <span style="color: red;" *ngIf="lastName && lastName.invalid && lastName.touched">This input Field is not valid</span>
+          <br>
+        </div>
+        <div class="input-box">
+          <div class="details">Email</div>
+          <input type="email" placeholder="Enter your email" formControlName="email">
+          <br>
+          <span style="color: red;" *ngIf="email && email.invalid && email.touched">This input Field is not valid</span>
+          <br>
+        </div>
+        <div class="input-box">
+          <div class="details">Date Of Birth</div>
+          <input type="date" placeholder="Enter your Date of Birth" formControlName="dateOfBirth">
+          <br>
+          <span style="color: red;" *ngIf="dateOfBirth && dateOfBirth.invalid && dateOfBirth.touched">This input Field is not valid</span>
+          <br>
+        </div>
+        <div class="input-box">
+          <div class="details">Password</div>
+          <input type="password" placeholder="Enter your password" formControlName="password">
+          <br>
+          <span style="color: red;" *ngIf="password && password.invalid && password.touched" >This input Field is not valid</span>
+          <br>
+        </div>
+        <div class="input-box">
+          <div class="details">Confirm Password</div>
+          <input type="password" placeholder="Confirm your password" >
+        </div>
+      </div>
+      <div class="button">
+        <input type="submit" value="Register" [disabled]="regForm.invalid">
+      </div>
+    </form>
+    <a routerLink="/login">Already a member? click to login</a>
+  </div>
+</div>

@@ -1,0 +1,846 @@
+
+<div class="content">
+    <div class="">
+      <div class="row">
+  
+        <div class="">
+          <div class="card">
+            <div class="card-body pt-0">
+  
+              <nav class="user-tabs mb-4">
+                <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#pat_appointments" data-bs-toggle="tab">Upcomming Appointments</a>
+                  </li>
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" href="#pat_prescriptions" data-bs-toggle="tab">Notes</a>
+                  </li> -->
+                  <!-- <li class="nav-item">
+                      <a class="nav-link"
+                        href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#pat_medical_records"
+                        data-bs-toggle="tab"><span class="med-records">Medical Records</span></a>
+                    </li> -->
+                  <!-- <li class="nav-item">
+                      <a class="nav-link"
+                        href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#pat_billing"
+                        data-bs-toggle="tab">Billing</a>
+                    </li> -->
+                </ul>
+              </nav>
+  
+  
+              <div class="tab-content pt-0">
+  
+                <div id="pat_appointments" class="tab-pane fade show active">
+                  <div class="card card-table mb-0">
+                    <div class="card-body">
+  
+                      <div *ngIf="noData" style="text-align: center;">
+                        <h4>No Upcomming Appointments</h4>
+                      </div>
+  
+                      <div *ngIf="!noData">
+                        <div class="table-responsive" style="max-height: 462px;">
+                          <table class="table table-hover table-center mb-0">
+                            <thead>
+                              <tr>
+                                <th>Patient</th>
+                                <th>Date</th>
+                                <th>From Time</th>
+                                <th>To Time</th>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let element of upcomming_schedule">
+                                <td>
+                                  <h2 class="table-avatar">
+                                      <img class=" avatar avatar-sm me-2 avatar-img rounded-circle" src="./../../assets/imgs/patient.png"
+                                        alt="User Image">
+                                     <a id='doctorName'>{{element?.patient?.firstName | titlecase }} {{ element?.patient?.lastName | titlecase}}</a>
+                                  </h2>
+                                </td>
+                                <td id="date">{{element.date | date: 'dd/MM/yyyy'}}</td>
+                                <td id="time">{{element.from_time}}</td>
+                                <td id="time">{{element.to_time}}</td>
+                                <td>{{element.title}}</td>
+                                <td><span [ngClass]="{'bg-success-light': element.status === 'Approved',
+                                     'bg-warning-light' : element.status === 'Pending', 
+                                     'bg-danger-light' : element.status === 'Cancelled' }"
+                                    class="badge rounded-pill bg-success-light">{{element.status}}</span></td>
+                                <td class="text-end">
+                                  <div class="table-action">
+                                    <!-- <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                      <i class="fas fa-print"></i> Print
+                                    </a>
+                                    &nbsp; -->
+                                    <a href="javascript:void(0);" class="btn btn-sm bg-info-light"  onclick="opration(this);">
+                                      <i class="far fa-eye"></i> View
+                                    </a>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 style="text-align: center;">Appointment Details</h3>
+            <hr>
+            <div>
+                Patient Name : <b> <label id='setpatient'></label> </b>
+                <br>
+                <br>
+                Doctor Name : <b><label  id='setDoc'></label> </b>
+                <br>
+                <br>
+                Appoinment Title : <b> <label id="setTitle"></label></b>
+                <br>
+                <br>
+                Appoinment Time : <b> <label id="setTime"></label> </b>
+                <br>
+                <br>
+                Description : <b> <label id="setDes">Routine health checkup</label> </b>
+                <br>
+            </div>
+        </div>
+  
+    </div>
+  
+                <!-- <div class="tab-pane fade" id="pat_prescriptions">
+                  <div class="card card-table mb-0">
+                    <div class="card-body">
+                      <div *ngIf="noDeclinedData" style="text-align: center;">
+                        <h4>No Cancelled Appointments</h4>
+                      </div>
+  
+                      <div *ngIf="!noDeclinedData">
+                        <div class="table-responsive" style="max-height: 462px;">
+                          <table class="table table-hover table-center mb-0">
+                            <thead>
+                              <tr>
+                                <th>Physician</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let element of cancelled_schedule">
+                                <td>
+                                  <h2 class="table-avatar">
+                                    <a href="" class="avatar avatar-sm me-2">
+                                      <img class="avatar-img rounded-circle" src="./../../assets/imgs/doctor.png"
+                                        alt="User Image">
+                                    </a>
+                                    <a href="">{{element?.doctor?.firstName }} {{ element?.doctor?.lastName }}</a>
+                                  </h2>
+                                </td>
+                                <td id="date">{{element.date | date: 'dd/MM/yyyy'}}</td>
+                                <td id="time">{{element.date | date: 'HH:MM'}}</td>
+                                <td>{{element.title}}</td>
+                                <td><span class="badge rounded-pill bg-danger-light">{{element.status}}</span></td>
+                                <td class="text-end">
+                                  <div class="table-action">
+                                    <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                      <i class="fas fa-print"></i> Print
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                      <i class="far fa-eye"></i> View
+                                    </a>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div> -->
+  
+                <div id="pat_medical_records" class="tab-pane fade">
+                  <div class="card card-table mb-0">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0">
+                          <thead>
+                            <tr>
+                              <th>ID</th>
+                              <th>Date </th>
+                              <th>Description</th>
+                              <th>Attachment</th>
+                              <th>Created</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><a href="javascript:void(0);">#MR-0010</a></td>
+                              <td>14 Nov 2019</td>
+                              <td>Dental Filling</td>
+                              <td><a
+                                  href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#">dental-test.pdf</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-01.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Ruby Perrin <span>Dental</span></a>
+                                </h2>
+                              </td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="javascript:void(0);">#MR-0009</a></td>
+                              <td>13 Nov 2019</td>
+                              <td>Teeth Cleaning</td>
+                              <td><a
+                                  href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#">dental-test.pdf</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-02.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Darren Elder <span>Dental</span></a>
+                                </h2>
+                              </td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="javascript:void(0);">#MR-0008</a></td>
+                              <td>12 Nov 2019</td>
+                              <td>General Checkup</td>
+                              <td><a
+                                  href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#">cardio-test.pdf</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-03.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Deborah Angel <span>Cardiology</span></a>
+                                </h2>
+                              </td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="javascript:void(0);">#MR-0007</a></td>
+                              <td>11 Nov 2019</td>
+                              <td>General Test</td>
+                              <td><a
+                                  href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#">general-test.pdf</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-04.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Sofia Brient <span>Urology</span></a>
+                                </h2>
+                              </td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="javascript:void(0);">#MR-0006</a></td>
+                              <td>10 Nov 2019</td>
+                              <td>Eye Test</td>
+                              <td><a
+                                  href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#">eye-test.pdf</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-05.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Marvin Campbell <span>Ophthalmology</span></a>
+                                </h2>
+                              </td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="javascript:void(0);">#MR-0005</a></td>
+                              <td>9 Nov 2019</td>
+                              <td>Leg Pain</td>
+                              <td><a
+                                  href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#">ortho-test.pdf</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-06.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Katharine Berthold <span>Orthopaedics</span></a>
+                                </h2>
+                              </td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="javascript:void(0);">#MR-0004</a></td>
+                              <td>8 Nov 2019</td>
+                              <td>Head pain</td>
+                              <td><a
+                                  href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#">neuro-test.pdf</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-07.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Linda Tobin <span>Neurology</span></a>
+                                </h2>
+                              </td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="javascript:void(0);">#MR-0003</a></td>
+                              <td>7 Nov 2019</td>
+                              <td>Skin Alergy</td>
+                              <td><a
+                                  href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#">alergy-test.pdf</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-08.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Paul Richard <span>Dermatology</span></a>
+                                </h2>
+                              </td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="javascript:void(0);">#MR-0002</a></td>
+                              <td>6 Nov 2019</td>
+                              <td>Dental Removing</td>
+                              <td><a
+                                  href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#">dental-test.pdf</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-09.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    John Gibbs <span>Dental</span></a>
+                                </h2>
+                              </td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="javascript:void(0);">#MR-0001</a></td>
+                              <td>5 Nov 2019</td>
+                              <td>Dental Filling</td>
+                              <td><a
+                                  href="https://doccure-html.dreamguystech.com/template/patient-dashboard.html#">dental-test.pdf</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-10.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Olga Barlow <span>Dental</span></a>
+                                </h2>
+                              </td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+  
+                <div id="pat_billing" class="tab-pane fade">
+                  <div class="card card-table mb-0">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0">
+                          <thead>
+                            <tr>
+                              <th>Invoice No</th>
+                              <th>Doctor</th>
+                              <th>Amount</th>
+                              <th>Paid On</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html">#INV-0010</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-01.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Ruby
+                                    Perrin <span>Dental</span></a>
+                                </h2>
+                              </td>
+                              <td>$450</td>
+                              <td>14 Nov 2019</td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html"
+                                    class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html">#INV-0009</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-02.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Darren Elder <span>Dental</span></a>
+                                </h2>
+                              </td>
+                              <td>$300</td>
+                              <td>13 Nov 2019</td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html"
+                                    class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html">#INV-0008</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-03.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Deborah Angel <span>Cardiology</span></a>
+                                </h2>
+                              </td>
+                              <td>$150</td>
+                              <td>12 Nov 2019</td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html"
+                                    class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html">#INV-0007</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-04.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Sofia Brient <span>Urology</span></a>
+                                </h2>
+                              </td>
+                              <td>$50</td>
+                              <td>11 Nov 2019</td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html"
+                                    class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html">#INV-0006</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-05.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Marvin Campbell <span>Ophthalmology</span></a>
+                                </h2>
+                              </td>
+                              <td>$600</td>
+                              <td>10 Nov 2019</td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html"
+                                    class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html">#INV-0005</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-06.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Katharine Berthold <span>Orthopaedics</span></a>
+                                </h2>
+                              </td>
+                              <td>$200</td>
+                              <td>9 Nov 2019</td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html"
+                                    class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html">#INV-0004</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-07.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Linda Tobin <span>Neurology</span></a>
+                                </h2>
+                              </td>
+                              <td>$100</td>
+                              <td>8 Nov 2019</td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html"
+                                    class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html">#INV-0003</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-08.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Paul Richard <span>Dermatology</span></a>
+                                </h2>
+                              </td>
+                              <td>$250</td>
+                              <td>7 Nov 2019</td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html"
+                                    class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html">#INV-0002</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-09.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    John Gibbs <span>Dental</span></a>
+                                </h2>
+                              </td>
+                              <td>$175</td>
+                              <td>6 Nov 2019</td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html"
+                                    class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html">#INV-0001</a>
+                              </td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html"
+                                    class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="./Doccure_files/doctor-thumb-10.jpg"
+                                      alt="User Image">
+                                  </a>
+                                  <a href="https://doccure-html.dreamguystech.com/template/doctor-profile.html">Dr.
+                                    Olga Barlow <span>#0010</span></a>
+                                </h2>
+                              </td>
+                              <td>$550</td>
+                              <td>5 Nov 2019</td>
+                              <td class="text-end">
+                                <div class="table-action">
+                                  <a href="https://doccure-html.dreamguystech.com/template/invoice-view.html"
+                                    class="btn btn-sm bg-info-light">
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                  <a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>(function () {
+      // injected DOM script is not a content script anymore,
+      // it can modify objects and functions of the page
+      var _pushState = history.pushState;
+      history.pushState = function (state, title, url) {
+        _pushState.call(this, state, title, url);
+        window.dispatchEvent(
+          new CustomEvent('state-changed', { detail: url })
+        );
+      };
+      // repeat the above for replaceState too
+    })();</script>
+  <script>(function () {
+      // injected DOM script is not a content script anymore,
+      // it can modify objects and functions of the page
+      var _pushState = history.pushState;
+      history.pushState = function (state, title, url) {
+        _pushState.call(this, state, title, url);
+        window.dispatchEvent(
+          new CustomEvent('state-changed', { detail: url })
+        );
+      };
+      // repeat the above for replaceState too
+    })();</script>
+  <script>(function () {
+      // injected DOM script is not a content script anymore,
+      // it can modify objects and functions of the page
+      var _pushState = history.pushState;
+      history.pushState = function (state, title, url) {
+        _pushState.call(this, state, title, url);
+        window.dispatchEvent(
+          new CustomEvent('state-changed', { detail: url })
+        );
+      };
+      // repeat the above for replaceState too
+    })();</script>

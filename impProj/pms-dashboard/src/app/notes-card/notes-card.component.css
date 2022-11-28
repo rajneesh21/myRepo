@@ -1,0 +1,20 @@
+li {
+  display: inline-block;
+  margin-left: 10px;
+  padding-top: 20px;
+}
+
+.DateTime{
+  color: red;
+}
+
+.card {
+  width: 35rem;
+  height: 80px;
+  margin-left: 400px;
+  
+}
+
+.Image2{
+  justify-content: end;
+}

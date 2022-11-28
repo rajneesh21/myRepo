@@ -1,0 +1,153 @@
+<div class="main-wrapper" style="transform: none;">
+
+  <div class="content" style="transform: none; min-height: 209px;">
+    <div class="container-fluid" style="transform: none;">
+      <div class="row" style="transform: none;">
+
+        <div class="theiaStickySidebar"
+          style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+          <div class="theiaStickySidebar"
+            style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+            <div class="profile-sidebar">
+              <div class="widget-profile pro-widget-content">
+                <div class="profile-info-widget">
+                    <div *ngIf="role === 'patient'">
+                      <img class="booking-doc-img" src="./../../assets/imgs/patient.png" alt="User Image">
+                    </div>
+                    <div *ngIf="role === 'doctor'">
+                      <img class="booking-doc-img" src="./../../assets/imgs/doctor.png" alt="User Image">
+                    </div>
+                    <div *ngIf="role === 'nurse'">
+                      <img class="booking-doc-img" src="./../../assets/imgs/nurse.png" alt="User Image">
+                    </div>
+                  <div class="profile-det-info">
+                    <h3 id="userName">{{ userName | titlecase}}</h3>
+                    <div class="patient-details">
+                      <h5><i class="fas fa-birthday-cake"></i> 24 Jul 1983, 38 years</h5>
+                      <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Newyork, USA</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="dashboard-widget">
+                <nav class="dashboard-menu">
+                  <ul>
+                      <li *ngIf="role === 'patient'" id="paneDashboard" onclick="colorToggle(this);" >
+                        <a routerLink="patient">
+                          <i class="fas fa-columns"></i>
+                          <span>Dashboard</span>
+                        </a>
+                      </li>
+                        <li *ngIf="role === 'doctor'" class="active">
+                          <a routerLink="doctor">
+                            <i class="fas fa-columns"></i>
+                            <span>Dashboard</span>
+                          </a>
+                        </li>
+
+                        <li *ngIf="role === 'nurse'" class="active">
+                          <a routerLink="nurse">
+                            <i class="fas fa-columns"></i>
+                            <span>Dashboard</span>
+                          </a>
+                        </li>
+
+                    <li *ngIf="role === 'patient'">
+                      <a routerLink="schedule">
+                        <i class="fas fa-calendar"></i>
+                        <span>Book Appointment</span>
+                      </a>
+                    </li>
+
+                    <li *ngIf="role === 'doctor'">
+                      <a routerLink="schedule">
+                        <i class="fas fa-calendar"></i>
+                        <span>Manage Appointment</span>
+                      </a>
+                    </li>
+
+                    <li *ngIf="role === 'nurse'">
+                      <a routerLink="schedule">
+                        <i class="fas fa-calendar"></i>
+                        <span>Manage Appointment</span>
+                      </a>
+                    </li>
+
+                    <li *ngIf="role === 'doctor'">
+                      <a routerLink="notes">
+                        <i class="fas fa-notes-medical"></i>
+                        <span>Notes</span>
+                      </a>
+                    </li>
+
+                    <li *ngIf="role === 'nurse'">
+                      <a routerLink="notes">
+                        <i class="fas fa-notes-medical"></i>
+                        <span>Notes</span>
+                      </a>
+                    </li>
+                  
+                    <li *ngIf="role === 'patient'">
+                      <a href="">
+                        <i class="fas fa-users"></i>
+                        <span>Patient Details</span>
+                      </a>
+                    </li>
+                    <li *ngIf="role === 'doctor'">
+                      <a href="">
+                        <i class="fas fa-users"></i>
+                        <span>Patient Visits</span>
+                      </a>
+                    </li>
+                    <li *ngIf="role === 'nurse'">
+                      <a href="">
+                        <i class="fas fa-users"></i>
+                        <span>Patient Visits</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a routerLink="patient-info">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Profile Settings</span>
+                      </a>
+                    </li>
+                
+                    <li>
+                      <a routerLink="changePassword">
+                        <i class="fas fa-key"></i>
+                        <span>Change Password</span>
+                      </a>
+                    </li>
+
+                    <li>
+                      <a routerLink="logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class="resize-sensor"
+              style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;">
+              <div class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                <div
+                  style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 381px; height: 1525px;">
+                </div>
+              </div>
+              <div class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                <div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

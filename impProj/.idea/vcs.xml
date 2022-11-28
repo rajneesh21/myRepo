@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/pms-admin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-allergy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-apigateway" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-auth" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-dashboard" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-diagnosis" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-eu-server" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-inbox" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-medication" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-observation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-patient-visit" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-report" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-schedule" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-user" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-utility" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pms-vital-signs" vcs="Git" />
+  </component>
+</project>

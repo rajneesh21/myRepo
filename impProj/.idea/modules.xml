@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/code_base.iml" filepath="$PROJECT_DIR$/.idea/code_base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pms-auth/pms-auth.iml" filepath="$PROJECT_DIR$/pms-auth/pms-auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pms-eu-server/pms-eu-server.iml" filepath="$PROJECT_DIR$/pms-eu-server/pms-eu-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pms-inbox/pms-inbox.iml" filepath="$PROJECT_DIR$/pms-inbox/pms-inbox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pms-patient-visit/pms-patient-visit.iml" filepath="$PROJECT_DIR$/pms-patient-visit/pms-patient-visit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pms-schedule/pms-schedule.iml" filepath="$PROJECT_DIR$/pms-schedule/pms-schedule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pms-user/pms-user.iml" filepath="$PROJECT_DIR$/pms-user/pms-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pms-utility/pms-utility.iml" filepath="$PROJECT_DIR$/pms-utility/pms-utility.iml" />
+    </modules>
+  </component>
+</project>

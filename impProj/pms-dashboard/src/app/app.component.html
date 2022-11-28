@@ -1,0 +1,89 @@
+<span *ngIf="isValid;then condition2 else condition1"></span>
+<ng-template #condition1>
+  <nav class="navbar navbar-expand-lg " style="background: #15558d; padding-left: 2%; padding-right: 1%;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+      aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <a class="navbar-brand nav-bar-text-color" routerLink="">PMS</a>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+        <li class="nav-item">
+          <a class="nav-link nav-bar-text-color" routerLink="contact">Contact Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-bar-text-color" routerLink="about">About Us</a>
+        </li>
+      </ul>
+    </div>
+    <a class="btn btn-outline-success  nav-bar-text-color d-flex justify-content-end" routerLink='signup'>Sign Up</a>
+    &nbsp;
+  </nav>
+</ng-template>
+<ng-template #condition2>
+  <nav class="navbar navbar-expand-lg " style="background: #15558d; padding-left: 2%; padding-right: 1%;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+      aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <a *ngIf="!isValid"  class="navbar-brand nav-bar-text-color" routerLink="">PMS</a>
+      <a *ngIf="isValid"  class="navbar-brand nav-bar-text-color" [routerLink]="['', role]">PMS</a>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+        <li class="nav-item">
+          <a class="nav-link nav-bar-text-color" routerLink="contact">Contact Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-bar-text-color" routerLink="about">About Us</a>
+        </li>
+      </ul>
+    </div>
+      <a class="btn btn-outline-success nav-bar-text-color d-flex justify-content-end" routerLink='logout'>Sign Out</a>
+  </nav>
+</ng-template>
+
+<span *ngIf="isValid;then con1 else con2"></span>
+<ng-template #con1>
+
+<div class="row">
+  
+    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+      <app-left-pane></app-left-pane>
+    </div>
+  <div class="col-xl-9 col-lg-8 col-md-8" style="padding-right: 3%;">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+</ng-template>
+
+<ng-template #con2>
+  <router-outlet></router-outlet>
+</ng-template>
+
+<!-- Footer -->
+<div class="footer-dark">
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-md-3 item">
+          <h3>About</h3>
+          <ul>
+            <li><a href="#">Company</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 item text">
+          <h3>PMS</h3>
+          <p style="color: white;">
+            PMS is an advanced practice management web site which allows hospitals to track there staff
+            as well as patient details by providing them a very easy and user friendly UI.
+          </p>
+        </div>
+      </div>
+      <p class="copyright">PMS © 2021</p>
+    </div>
+  </footer>
+</div>
