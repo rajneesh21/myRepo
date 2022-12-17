@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.citiustech.patient.model.Appointment;
@@ -37,8 +39,12 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public void savePatientRecords(Patient patient) {
-
+	public ResponseEntity<String> savePatientRecords(Patient patient) {
+		
+		String successMessage="Patient added sucessfully";
+		String updateMsg="Patient updated sucessfully";
+		
+		
 		Optional<Patient> optPatient = patientRepository.findById(patient.getPatientId());
 		if (optPatient.isPresent()) {
 
@@ -51,29 +57,38 @@ public class PatientServiceImpl implements PatientService {
 			patientData.setPassword(patient.getPassword());
 
 			patientRepository.save(patientData);
+			return ResponseEntity.status(HttpStatus.OK).body(updateMsg);
 
 		} else {
 			patientRepository.save(patient);
+			return ResponseEntity.status(HttpStatus.OK).body(successMessage);
 		}
 	}
 
 	@Override
-	public void deletePatientRecord(Long patientId) {
+	public ResponseEntity<String> deletePatientRecord(Long patientId) {
+		
+		String successMessage="Patient deleted sucessfully";
+		String errorMsg="Invalid Id, Patient Not Found";
 		Optional<Patient> optPatient = patientRepository.findById(patientId);
 
 		if (optPatient.isPresent()) {
 			patientRepository.deleteById(patientId);
-
-			System.out.println("Patient deleted sucessfully " + patientId);
+			return ResponseEntity.status(HttpStatus.OK).body(successMessage);
+		
+			
 		} else {
-			System.out.println("Patient Record not Found..");
+			
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMsg);
 		}
 
 	}
 
 	@Override
-	public void bookAppointment(AppointmentDTO appointmentD) {
-
+	public ResponseEntity<String> bookAppointment(AppointmentDTO appointmentD) {
+		String successMessage="Appointment booked sucessfully";
+		String errorMsg="Invalid Id, Patient Not Found";
+		
 		Appointment appointment = new Appointment();
 		Optional<Patient> optPatient = patientRepository.findById(appointmentD.getPatientId());
 		
@@ -85,14 +100,15 @@ public class PatientServiceImpl implements PatientService {
 			appointment.setDoctorId(appointmentD.getDoctorId());
 			appointment.setAppointmentDate(appointmentD.getAppointmentDate());
 			appointmentRepository.save(appointment);
+			return ResponseEntity.status(HttpStatus.OK).body(successMessage);
 
 		} else {
-			System.out.println("Incorrect details!");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMsg);
 		}
 	}
 
 	@Override
-	public List<PatientAppointmentDetails> viewAppointment(Long patientId) {
+	public Object viewAppointment(Long patientId) {
 
 		
 		Optional<Patient> optPatient = patientRepository.findById(patientId);
@@ -119,16 +135,17 @@ public class PatientServiceImpl implements PatientService {
 				}
 				return patientAppointmentList;
 			} else {
-				System.out.println("No Appointment Available");
-				return null;
+				
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Appointment available");
+				
 
 			}
 
 		}
 
 		else {
-			System.out.println("Invalid Id");
-			return null;
+			
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Id");
 
 		}
 	}

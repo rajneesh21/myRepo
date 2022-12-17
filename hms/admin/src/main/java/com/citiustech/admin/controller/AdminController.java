@@ -58,4 +58,6 @@ public class AdminController {
 		
 		adminService.deleteDoctor(id);
 	}
+	
+	
 }

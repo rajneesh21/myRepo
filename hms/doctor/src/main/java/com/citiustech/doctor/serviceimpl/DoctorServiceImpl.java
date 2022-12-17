@@ -3,16 +3,13 @@ package com.citiustech.doctor.serviceimpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
-
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.citiustech.doctor.model.Appointment;
-import com.citiustech.doctor.model.AppointmentDTO;
 import com.citiustech.doctor.model.Doctor;
 import com.citiustech.doctor.model.DoctorAppointmentDetails;
 import com.citiustech.doctor.model.Patient;
@@ -33,7 +30,7 @@ public class DoctorServiceImpl implements DoctorService{
 	AppointmentRepository appointmentRepository;
 	
 	@Override
-	public void saveDoctor(Doctor doctor) {
+	public Object saveDoctor(Doctor doctor) {
 
 		Optional<Doctor> optDoctor= doctorRepository.findById(doctor.getDoctorId());
 		
@@ -50,41 +47,31 @@ public class DoctorServiceImpl implements DoctorService{
 			
 			
 			doctorRepository.save(doctorData);
+			return ResponseEntity.status(HttpStatus.OK).body("Doctor Updated Sucessfully");
 		}
 		else {
 			doctorRepository.save(doctor);
+			return ResponseEntity.status(HttpStatus.OK).body("Doctor Added Sucessfully");
 		}
 		
 	}
 
-	@Override
-	public List<Doctor> getDoctorDetails() {
-
-		List<Doctor> doctorList= doctorRepository.findAll();
-		if(doctorList.size()>0) {
-			return doctorList;
-		}
-		else {
-			return null;		}
-		
-		
-	}
 
 	@Override
-	public void deleteDoctor(Long contactNumber) {
+	public Object deleteDoctor(Long contactNumber) {
 
 		Optional<Doctor> optDoctor= doctorRepository.findById(contactNumber);
 		if(optDoctor.isPresent()) {
 			doctorRepository.deleteById(contactNumber);
-			System.out.println("Doctor deleted sucessfully"+ contactNumber);
+			return ResponseEntity.status(HttpStatus.OK).body("Doctor deleted sucessfully"+contactNumber);
 		}
 		else {
-			System.out.println("No doctor deleted, Doctor Not Found..");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Doctor Found with this doctorId");
 		}
 	}
 
 	@Override
-	public Doctor getDoctorByDoctorId(Long doctorId) {
+	public Object getDoctorByDoctorId(Long doctorId) {
 
 		Optional<Doctor> optDoctor= doctorRepository.findById(doctorId);
 		if(optDoctor.isPresent()) {
@@ -92,25 +79,14 @@ public class DoctorServiceImpl implements DoctorService{
 			return doctor;
 		}
 		else {
-			System.out.println("No Doctor Found with this doctorId");
-			return null;
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Doctor Found with this doctorId");
 		}
 		
 	}
-
-	@Override
-	public List<Patient> getPatientDetails() {
-		List<Patient> patientList= patientRepository.findAll();
-		if(patientList.size()>0) {
-			return patientList;
-		}
-		else {
-			return null;		}
-	}
 	
 	
 	@Override
-	public List<DoctorAppointmentDetails> viewAllAppointment(Long doctorId) {
+	public Object viewAllAppointment(Long doctorId) {
 		List<DoctorAppointmentDetails> aptArrList= new ArrayList<>();
 		
 		Optional<Doctor> optDoctor= doctorRepository.findById(doctorId);
@@ -136,13 +112,13 @@ public class DoctorServiceImpl implements DoctorService{
 				return aptArrList;
 			}
 				else {
-					System.out.println("No Appointment Available");
-					return null;
+		
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Appointment Available");
 				}
 			}
 			else {
 				System.out.println("Invalid Id");
-				return null;
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Id");
 			}
 				}
 				

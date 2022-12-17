@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="HMS_Doctor")
+@Table(name = "HMS_Doctor")
 public class Doctor {
 
 	@Id
@@ -18,9 +18,6 @@ public class Doctor {
 	private String specialization;
 	private String qualification;
 	private String address;
-	
-	
-	
 
 	public Long getDoctorId() {
 		return doctorId;
@@ -85,7 +82,5 @@ public class Doctor {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	
 
 }
