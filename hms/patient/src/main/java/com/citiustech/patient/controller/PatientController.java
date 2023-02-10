@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.citiustech.patient.model.AppointmentDTO;
+import com.citiustech.patient.model.AppointmentBody;
 import com.citiustech.patient.model.Patient;
 import com.citiustech.patient.service.PatientService;
 
@@ -43,12 +43,18 @@ public class PatientController {
 	}
 	
 	@PostMapping("/bookAppointment")
-	public ResponseEntity<String> bookAppointment(@RequestBody AppointmentDTO appointmentD) {
-		return patientService.bookAppointment(appointmentD);
+	public ResponseEntity<String> bookAppointment(@RequestBody AppointmentBody appointmentBody) {
+		return patientService.bookAppointment(appointmentBody);
 	}
 	
-	@GetMapping("/viewAppointment/{patientId}")
-	public Object viewAppointment(@PathVariable Long patientId) {
-		return patientService.viewAppointment(patientId);
+	@GetMapping("/viewAppointmentByPatientId/{patientId}")
+	public Object viewAppointmentByPatientId(@PathVariable Long patientId) {
+		return patientService.viewAppointmentByPatientId(patientId);
 	}
+	
+	@GetMapping("/viewAppointmentByDoctorId/{doctorId}")
+	public Object viewAppointmentByDoctorId(@PathVariable Long doctorId) {
+		return patientService.viewAppointmentByDoctorId(doctorId);
+	}	
+	
 }

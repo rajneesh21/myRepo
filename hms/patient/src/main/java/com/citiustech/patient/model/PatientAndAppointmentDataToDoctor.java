@@ -1,14 +1,15 @@
-package com.citiustech.doctor.model;
+package com.citiustech.patient.model;
 
-public class DoctorAppointmentDetails {
+public class PatientAndAppointmentDataToDoctor {
 
 	private String appointmentId;
 	private String appointmentDate;
 	private Long patientId;
-	private String patientName;
-	private String DOB;
+	private String name;
+	private String dob;
 	private String gender;
 	private String email;
+	private String password;
 
 	public String getAppointmentId() {
 		return appointmentId;
@@ -34,20 +35,20 @@ public class DoctorAppointmentDetails {
 		this.patientId = patientId;
 	}
 
-	public String getPatientName() {
-		return patientName;
+	public String getName() {
+		return name;
 	}
 
-	public void setPatientName(String patientName) {
-		this.patientName = patientName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getDOB() {
-		return DOB;
+	public String getDob() {
+		return dob;
 	}
 
-	public void setDOB(String dOB) {
-		DOB = dOB;
+	public void setDob(String dob) {
+		this.dob = dob;
 	}
 
 	public String getGender() {
@@ -64,6 +65,14 @@ public class DoctorAppointmentDetails {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

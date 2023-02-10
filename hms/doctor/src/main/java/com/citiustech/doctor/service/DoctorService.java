@@ -1,5 +1,7 @@
 package com.citiustech.doctor.service;
 
+import java.util.List;
+
 import com.citiustech.doctor.model.Doctor;
 
 public interface DoctorService {

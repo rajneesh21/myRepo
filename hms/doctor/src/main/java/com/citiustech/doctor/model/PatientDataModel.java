@@ -1,25 +1,33 @@
 package com.citiustech.doctor.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class PatientDataModel {
 
-@Entity
-@Table(name="HMS_Patient")
-public class Patient {
-
-	@Id
+	private String appointmentId;
+	private String appointmentDate;
+	
 	private Long patientId;
-
+	
 	private String name;
 	private String dob;
 	private String gender;
 	private String email;
 	private String password;
 	
-	
-	
-	
+	public String getAppointmentId() {
+		return appointmentId;
+	}
+
+	public void setAppointmentId(String appointmentId) {
+		this.appointmentId = appointmentId;
+	}
+
+	public String getAppointmentDate() {
+		return appointmentDate;
+	}
+
+	public void setAppointmentDate(String appointmentDate) {
+		this.appointmentDate = appointmentDate;
+	}
 
 	public Long getPatientId() {
 		return patientId;
@@ -68,4 +76,5 @@ public class Patient {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 }

@@ -1,18 +1,9 @@
 package com.citiustech.patient.model;
 
-public class AppointmentDTO {
-
-	private Long patientId;
+public class AppointmentBody {
 	private Long doctorId;
+	private Long patientId;
 	private String appointmentDate;
-	
-	public Long getPatientId() {
-		return patientId;
-	}
-
-	public void setPatientId(Long patientId) {
-		this.patientId = patientId;
-	}
 
 	public Long getDoctorId() {
 		return doctorId;
@@ -20,6 +11,14 @@ public class AppointmentDTO {
 
 	public void setDoctorId(Long doctorId) {
 		this.doctorId = doctorId;
+	}
+
+	public Long getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(Long patientId) {
+		this.patientId = patientId;
 	}
 
 	public String getAppointmentDate() {

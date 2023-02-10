@@ -9,5 +9,4 @@ import com.citiustech.patient.model.Patient;
 public interface PatientRepository extends JpaRepository<Patient, Long>{
 
 	
-	
 }

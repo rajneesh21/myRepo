@@ -1,14 +1,7 @@
 package com.citiustech.patient.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class DoctorDataModel {
 
-@Entity
-@Table(name = "HMS_Doctor")
-public class Doctor {
-
-	@Id
 	private Long doctorId;
 
 	private String firstName;

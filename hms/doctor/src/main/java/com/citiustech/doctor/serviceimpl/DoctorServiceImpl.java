@@ -1,22 +1,23 @@
 package com.citiustech.doctor.serviceimpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import com.citiustech.doctor.model.Appointment;
 import com.citiustech.doctor.model.Doctor;
-import com.citiustech.doctor.model.DoctorAppointmentDetails;
-import com.citiustech.doctor.model.Patient;
-import com.citiustech.doctor.repository.AppointmentRepository;
+import com.citiustech.doctor.model.PatientDataModel;
+
 import com.citiustech.doctor.repository.DoctorRepository;
-import com.citiustech.doctor.repository.PatientRepository;
+
 import com.citiustech.doctor.service.DoctorService;
+
 
 @Service
 public class DoctorServiceImpl implements DoctorService{
@@ -24,10 +25,11 @@ public class DoctorServiceImpl implements DoctorService{
 
 	@Autowired
 	DoctorRepository doctorRepository;
+	
 	@Autowired
-	PatientRepository patientRepository;
-	@Autowired
-	AppointmentRepository appointmentRepository;
+	RestTemplate restTemplate;
+	
+
 	
 	@Override
 	public Object saveDoctor(Doctor doctor) {
@@ -87,12 +89,26 @@ public class DoctorServiceImpl implements DoctorService{
 	
 	@Override
 	public Object viewAllAppointment(Long doctorId) {
-		List<DoctorAppointmentDetails> aptArrList= new ArrayList<>();
 		
+				
 		Optional<Doctor> optDoctor= doctorRepository.findById(doctorId);
 		
 		if(optDoctor.isPresent()) {
-			List<Appointment> appointments=appointmentRepository.findByDoctorId(doctorId);
+			
+			
+			String patUrl=String.format("http://PATIENT-H/patient/viewAppointmentByDoctorId/%s", doctorId);
+			List<PatientDataModel> appointmentList = restTemplate.exchange(patUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<PatientDataModel>>() {
+				
+			}).getBody();
+			return appointmentList;
+		}
+		
+		else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Id");
+		}
+		
+		
+			/*List<Appointment> appointments=appointmentRepository.findByDoctorId(doctorId);
 			if(appointments.size()!=0) {
 				for(Appointment appointment:appointments) {
 					Patient patient= patientRepository.findById(appointment.getPatientId()).get();
@@ -114,14 +130,11 @@ public class DoctorServiceImpl implements DoctorService{
 				else {
 		
 					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Appointment Available");
-				}
+				}*/
 			}
-			else {
-				System.out.println("Invalid Id");
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Id");
-			}
+			
 				}
 				
-	}
+	
 
 

@@ -6,17 +6,23 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.citiustech.patient.model.Appointment;
-import com.citiustech.patient.model.AppointmentDTO;
-import com.citiustech.patient.model.Doctor;
+import com.citiustech.patient.model.AppointmentBody;
+import com.citiustech.patient.model.DoctorDataModel;
 import com.citiustech.patient.model.Patient;
+import com.citiustech.patient.model.PatientAndAppointmentDataToDoctor;
 import com.citiustech.patient.model.PatientAppointmentDetails;
 import com.citiustech.patient.repository.AppointmentRepository;
-import com.citiustech.patient.repository.DoctorRepository;
 import com.citiustech.patient.repository.PatientRepository;
 import com.citiustech.patient.service.PatientService;
 
@@ -27,8 +33,11 @@ public class PatientServiceImpl implements PatientService {
 	PatientRepository patientRepository;
 	@Autowired
 	AppointmentRepository appointmentRepository;
+	
 	@Autowired
-	DoctorRepository doctorRepository;
+	RestTemplate restTemplate;
+	
+	
 
 	@Override
 	public List<Patient> patientList() {
@@ -85,20 +94,20 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public ResponseEntity<String> bookAppointment(AppointmentDTO appointmentD) {
+	public ResponseEntity<String> bookAppointment(AppointmentBody appointmentBody) {
 		String successMessage="Appointment booked sucessfully";
 		String errorMsg="Invalid Id, Patient Not Found";
 		
 		Appointment appointment = new Appointment();
-		Optional<Patient> optPatient = patientRepository.findById(appointmentD.getPatientId());
+		Optional<Patient> optPatient = patientRepository.findById(appointmentBody.getPatientId());
 		
 
 		if (optPatient.isPresent()) {
 			String aptId = UUID.randomUUID().toString();
 			appointment.setAppointmentId(aptId);
-			appointment.setPatientId(appointmentD.getPatientId());
-			appointment.setDoctorId(appointmentD.getDoctorId());
-			appointment.setAppointmentDate(appointmentD.getAppointmentDate());
+			appointment.setPatientId(appointmentBody.getPatientId());
+			appointment.setDoctorId(appointmentBody.getDoctorId());
+			appointment.setAppointmentDate(appointmentBody.getAppointmentDate());
 			appointmentRepository.save(appointment);
 			return ResponseEntity.status(HttpStatus.OK).body(successMessage);
 
@@ -107,9 +116,12 @@ public class PatientServiceImpl implements PatientService {
 		}
 	}
 
+	
+		
 	@Override
-	public Object viewAppointment(Long patientId) {
-
+	public Object viewAppointmentByPatientId(Long patientId) {
+		
+		
 		
 		Optional<Patient> optPatient = patientRepository.findById(patientId);
 		
@@ -122,7 +134,11 @@ public class PatientServiceImpl implements PatientService {
 			if (appointmentList.size()!=0) {
 				for(Appointment appointment:appointmentList) {
 					PatientAppointmentDetails patientAppointmentDetails = new PatientAppointmentDetails();
-				Doctor doctor = doctorRepository.findById(appointment.getDoctorId()).get();
+					
+					String docUrl=String.format("http://DOCTOR-H/doctor/getOneDoctor/%s", appointment.getDoctorId());
+				DoctorDataModel doctor = restTemplate.exchange(docUrl, HttpMethod.GET, null, new ParameterizedTypeReference<DoctorDataModel>() {
+					
+				}).getBody();
 
 				patientAppointmentDetails.setAppointmentDate(appointment.getAppointmentDate());
 				patientAppointmentDetails.setAppointmentId(appointment.getAppointmentId());
@@ -131,7 +147,7 @@ public class PatientServiceImpl implements PatientService {
 				
 				patientAppointmentList.add(patientAppointmentDetails);
 				patientAppointmentDetails=null;
-				
+				 
 				}
 				return patientAppointmentList;
 			} else {
@@ -149,4 +165,33 @@ public class PatientServiceImpl implements PatientService {
 
 		}
 	}
+
+	@Override
+	public Object viewAppointmentByDoctorId(Long doctorId) {
+
+		List<PatientAndAppointmentDataToDoctor> doctorAppointmentList= new ArrayList<>();
+		List<Appointment> appointmentList = appointmentRepository.findByDoctorId(doctorId);
+		if (appointmentList.size()!=0) {
+			for(Appointment appointment:appointmentList) {
+				PatientAndAppointmentDataToDoctor patientAndAppointmentDataToDoctor= new PatientAndAppointmentDataToDoctor();
+				Patient patient= patientRepository.findById(appointment.getPatientId()).get();
+				
+				patientAndAppointmentDataToDoctor.setAppointmentId(appointment.getAppointmentId());
+				patientAndAppointmentDataToDoctor.setAppointmentDate(appointment.getAppointmentDate());
+				patientAndAppointmentDataToDoctor.setPatientId(appointment.getPatientId());
+				patientAndAppointmentDataToDoctor.setName(patient.getName());
+				patientAndAppointmentDataToDoctor.setGender(patient.getGender());
+				patientAndAppointmentDataToDoctor.setDob(patient.getDob());
+				patientAndAppointmentDataToDoctor.setEmail(patient.getEmail());
+				patientAndAppointmentDataToDoctor.setPassword(patient.getPassword());
+				
+				doctorAppointmentList.add(patientAndAppointmentDataToDoctor);
+				patientAndAppointmentDataToDoctor=null;
+				
+			}
+			return doctorAppointmentList;
+		}
+		return null;
+	}
 }
+
