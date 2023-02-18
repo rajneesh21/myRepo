@@ -1,8 +1,7 @@
 package com.citiustech.doctor.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,25 +21,25 @@ public class DoctorController {
 	DoctorService doctorService;
 	
 	@PostMapping("/addDoctor")
-	public Object saveDoctor(@RequestBody Doctor doctor) {
+	public ResponseEntity<String> saveDoctor(@RequestBody Doctor doctor) {
 		return doctorService.saveDoctor(doctor);
 	}
 	
 	
 	@DeleteMapping("/deleteDoctor/{contactNumber}")
-	public Object deleteDoctor(@PathVariable Long contactNumber) {
+	public ResponseEntity<String> deleteDoctor(@PathVariable Long contactNumber) {
 		
 		return doctorService.deleteDoctor(contactNumber);
 	}
 	
 	@GetMapping("/getOneDoctor/{doctorId}")
-	public Object getDoctorByDoctorId(@PathVariable Long doctorId) {
+	public ResponseEntity getDoctorByDoctorId(@PathVariable Long doctorId) {
 		return doctorService.getDoctorByDoctorId(doctorId);
 	}
 	
 	
 	@GetMapping("/viewAllAppointment/{doctorId}")
-	public Object viewAllAppointment(@PathVariable Long doctorId){
+	public ResponseEntity viewAllAppointment(@PathVariable Long doctorId){
 		return doctorService.viewAllAppointment(doctorId);
 	}
 }

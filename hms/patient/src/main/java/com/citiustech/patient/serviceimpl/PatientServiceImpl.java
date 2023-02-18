@@ -6,16 +6,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.client.RestTemplate;
 
+import com.citiustech.patient.client.DoctorServiceClient;
 import com.citiustech.patient.model.Appointment;
 import com.citiustech.patient.model.AppointmentBody;
 import com.citiustech.patient.model.DoctorDataModel;
@@ -34,9 +30,12 @@ public class PatientServiceImpl implements PatientService {
 	@Autowired
 	AppointmentRepository appointmentRepository;
 	
-	@Autowired
-	RestTemplate restTemplate;
+	/*
+	 * @Autowired RestTemplate restTemplate;
+	 */
 	
+	@Autowired
+	DoctorServiceClient doctorServiceClient;
 	
 
 	@Override
@@ -119,7 +118,7 @@ public class PatientServiceImpl implements PatientService {
 	
 		
 	@Override
-	public Object viewAppointmentByPatientId(Long patientId) {
+	public ResponseEntity viewAppointmentByPatientId(Long patientId) {
 		
 		
 		
@@ -135,24 +134,30 @@ public class PatientServiceImpl implements PatientService {
 				for(Appointment appointment:appointmentList) {
 					PatientAppointmentDetails patientAppointmentDetails = new PatientAppointmentDetails();
 					
-					String docUrl=String.format("http://DOCTOR-H/doctor/getOneDoctor/%s", appointment.getDoctorId());
-				DoctorDataModel doctor = restTemplate.exchange(docUrl, HttpMethod.GET, null, new ParameterizedTypeReference<DoctorDataModel>() {
-					
-				}).getBody();
+					/*
+					 * String docUrl=String.format("http://DOCTOR-H/doctor/getOneDoctor/%s",
+					 * appointment.getDoctorId()); DoctorDataModel doctor =
+					 * restTemplate.exchange(docUrl, HttpMethod.GET, null, new
+					 * ParameterizedTypeReference<DoctorDataModel>() {
+					 * 
+					 * }).getBody();
+					 */
 
+					DoctorDataModel doctor= doctorServiceClient.getDoctor(appointment.getDoctorId());
 				patientAppointmentDetails.setAppointmentDate(appointment.getAppointmentDate());
 				patientAppointmentDetails.setAppointmentId(appointment.getAppointmentId());
-				patientAppointmentDetails.setDoctorId(appointment.getDoctorId());
+				patientAppointmentDetails.setDoctorId(doctor.getDoctorId());
 				patientAppointmentDetails.setDoctorName("Dr. " + doctor.getFirstName() + " " + doctor.getLastName());
 				
 				patientAppointmentList.add(patientAppointmentDetails);
+				
 				patientAppointmentDetails=null;
 				 
 				}
-				return patientAppointmentList;
+				return ResponseEntity.ok(patientAppointmentList);
 			} else {
 				
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Appointment available");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Appointment Not Available");
 				
 
 			}
@@ -167,7 +172,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public Object viewAppointmentByDoctorId(Long doctorId) {
+	public ResponseEntity viewAppointmentByDoctorId(Long doctorId) {
 
 		List<PatientAndAppointmentDataToDoctor> doctorAppointmentList= new ArrayList<>();
 		List<Appointment> appointmentList = appointmentRepository.findByDoctorId(doctorId);
@@ -189,9 +194,9 @@ public class PatientServiceImpl implements PatientService {
 				patientAndAppointmentDataToDoctor=null;
 				
 			}
-			return doctorAppointmentList;
+			return ResponseEntity.ok(doctorAppointmentList);
 		}
-		return null;
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Appointment Available");
 	}
 }
 

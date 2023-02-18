@@ -48,12 +48,12 @@ public class PatientController {
 	}
 	
 	@GetMapping("/viewAppointmentByPatientId/{patientId}")
-	public Object viewAppointmentByPatientId(@PathVariable Long patientId) {
+	public ResponseEntity viewAppointmentByPatientId(@PathVariable Long patientId) {
 		return patientService.viewAppointmentByPatientId(patientId);
 	}
 	
 	@GetMapping("/viewAppointmentByDoctorId/{doctorId}")
-	public Object viewAppointmentByDoctorId(@PathVariable Long doctorId) {
+	public ResponseEntity viewAppointmentByDoctorId(@PathVariable Long doctorId) {
 		return patientService.viewAppointmentByDoctorId(doctorId);
 	}	
 	
